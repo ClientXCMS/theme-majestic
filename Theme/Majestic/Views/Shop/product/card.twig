@@ -1,0 +1,62 @@
+<div class="col-md-12 col-xl-{{ col ? col : 4 }} col-lg-6 col-sm-12 grid-margin stretch-card pricing-card">
+    <div class="card border border-{{ product.pinned ? 'success' : 'primary' }} pricing-card-body"
+         style="padding: 50px 56px 43px 56px;">
+        <div class="text-center pricing-card-head">
+            <h3>
+                {{ product.name }}
+            </h3>
+
+            {% if product.discounted %}
+                <p>
+                    <del>
+                        {{ product.originalPrice(product.toRecurring().name) | formatted_price(true) | trans }}
+                    </del>
+                    /
+
+                    {{ trans(product.paymenttype) }}
+                </p>
+            {% endif %}
+            </h6>
+            <h1 class="font-weight-normal mb-4">
+                {{ product.price(product.toRecurring().name) | formatted_price(true) | trans }}
+                /
+
+                {{ trans(product.paymenttype) }}
+            </h1>
+        </div>
+        <ul class="list-unstyled plan-features">
+            {{ product.description | raw }}
+        </ul>
+        <div class="wrapper">
+
+            {% if product.stockcontrol == "0" or (product.stockcontrol == '1' and product.stock != 0) %}
+                {% if module_is_enabled('Basket') %}
+                    <form method="POST" action="{{ path('basket.add', {id: product.id}) }}">
+                        {{ token | raw }}
+                        {% if basket_row(product) %}
+                            <input type="hidden" name="quantity" value="{{ basket_row(product).quantity }}">
+                            <input type="hidden" name="billing" value="{{ basket_row(product).billing }}">
+                        {% endif %}
+                        <button class="btn btn-lg btn-block btn-outline-{{ product.pinned ? 'success' : 'primary' }}">
+                            {{ trans("add_cart") }}
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                {% else %}
+                    <a class="btn btn-lg btn-block btn-outline-{{ product.pinned ? 'success' : 'primary' }}"
+                       href="{{ path('shop.checkout', {id: product.id}) }}">
+                        {{ trans("buy") }}
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                {% endif %}
+            {% else %}
+
+                <button class="btn btn-lg btn-block btn-outline-{{ product.pinned ? 'success' : 'primary' }}"
+                        type="button">
+                    {{ trans("out_stock") }}
+                    <i class="fas fa-time"></i>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
