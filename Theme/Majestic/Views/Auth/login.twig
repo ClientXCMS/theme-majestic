@@ -42,9 +42,11 @@
                 </div>
             </div>
 
+    {% if config('resetpwd', 'true') == 'true' %}
             <a href="{{ path('auth.password') }}" class="text-muted">
                 {{ trans("account.forgot.title") }}
             </a>
+            {% endif %}
         </div>
 
         <div class="col-12">
@@ -54,10 +56,13 @@
                 </button>
             </div>
         </div>
+        
+    {% if config('register', 'true') == 'true' %}
         <div class="text-center mt-4 font-weight-light">
             {{ trans("account.login.nocustomeryet") }} <a href="{{ path('account.signup') }}"
                                                           class="text-primary">{{ trans("account.signup.title") }}</a>
         </div>
+        {% endif %}
     </form>
     <hr>
     <a href="{{ path('account') }}"
