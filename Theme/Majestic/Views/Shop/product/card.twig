@@ -6,23 +6,22 @@
                 {{ product.name }}
             </h3>
 
+            <h4 class="font-weight-normal mb-4">
+
             {% if product.discounted %}
-                <p>
                     <del>
                         {{ product.originalPrice(product.toRecurring().name) | formatted_price(true) | trans }}
                     </del>
-                    /
-
-                    {{ trans(product.paymenttype) }}
-                </p>
+                 
             {% endif %}
-            </h6>
-            <h1 class="font-weight-normal mb-4">
+                {% if product.discounted %}
+                    <del>
+                        {{ product.originalPrice(product.toRecurring().name) | formatted_price(true) | trans }}
+                    </del>
+                {% endif %}
                 {{ product.price(product.toRecurring().name) | formatted_price(true) | trans }}
-                /
-
-                {{ trans(product.paymenttype) }}
-            </h1>
+                {% if product.paymenttype != 'free' %} {{ trans(product.toRecurring().TranslateKey) }}{% endif %}
+            </h4>
         </div>
         <ul class="list-unstyled plan-features">
             {{ product.description | raw }}
