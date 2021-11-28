@@ -22,6 +22,8 @@
                         </a>
                     </li>
                 {% endif %}
+                
+                {% if setting('disabled_changelocale') != 'true' %}
                 <li class="nav-item dropdown mr-4">
                     <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown"
                        id="localeDropdown" href="#" data-toggle="dropdown">
@@ -38,6 +40,8 @@
                         {% endfor %}
                     </div>
                 </li>
+                
+                {% endif %}
 
                 {% if current_user() and current_user().confirmed %}
 
@@ -64,8 +68,8 @@
                                             <div class="is-online"></div>
                                         </div>
                                         <div class="dropdown-item-desc">
-                                            <b>{{ mail.data.subject }}</b>
-                                            <p>{{ mail.data.introLines[0] }}</p>
+                                            <b>{{ mail.data.subject |raw  }}</b>
+                                            <p>{{ mail.data.introLines[0]  |raw  }}</p>
                                             <div class="time">{{ mail.createdAt | ago }}</div>
                                         </div>
                                     </a>
